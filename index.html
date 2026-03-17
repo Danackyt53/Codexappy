@@ -8,26 +8,62 @@
   </head>
   <body>
     <main class="app">
-      <h1>Sparx Coach</h1>
-      <p class="subtitle">Get guided help, not instant answers.</p>
+      <header class="topbar">
+        <div>
+          <h1>Sparx Coach</h1>
+          <p class="subtitle">Get guided help, not instant answers.</p>
+        </div>
+        <button id="themeBtn" class="secondary">Toggle theme</button>
+      </header>
 
       <section class="panel">
         <label for="question">Sparx question</label>
         <textarea id="question" rows="4" placeholder="Paste your question here..."></textarea>
 
+        <div class="meta-row">
+          <div>
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div>
+            <label>Detected topic</label>
+            <p id="topic" class="topic">No question yet</p>
+          </div>
+        </div>
+
         <label for="attempt">Your attempt (required for full solution)</label>
         <textarea id="attempt" rows="4" placeholder="Show your working or your best try..."></textarea>
 
         <div class="actions">
-          <button id="hintBtn">Hint 1</button>
+          <button id="hintBtn">Hint</button>
           <button id="nextStepBtn">Next step</button>
           <button id="checkBtn">Check my answer</button>
+          <button id="practiceBtn" class="secondary">Generate practice question</button>
+          <button id="saveBtn" class="secondary">Save session</button>
+          <button id="clearBtn" class="secondary">Clear</button>
         </div>
       </section>
 
       <section class="panel output-panel">
         <h2>Coach response</h2>
-        <div id="output" class="output">Start by adding your question and clicking <strong>Hint 1</strong>.</div>
+        <div id="output" class="output">Start by adding your question and clicking <strong>Hint</strong>.</div>
+      </section>
+
+      <section class="panel stats-grid">
+        <div>
+          <h2>Study stats</h2>
+          <p id="stats">Hints used: 0 • Checks done: 0 • Sessions saved: 0</p>
+        </div>
+        <div>
+          <h2>Recent sessions</h2>
+          <ul id="history" class="history-list">
+            <li>No saved sessions yet.</li>
+          </ul>
+        </div>
       </section>
 
       <section class="panel">

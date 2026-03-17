@@ -1,10 +1,16 @@
-# Sparx Coach (MVP)
+# Sparx Coach (MVP+)
 
-A lightweight, static web app that supports learning-first homework help:
+A lightweight, static web app for learning-first homework support.
 
-- prompts students to enter the question,
-- requests an attempt before giving full feedback,
-- provides hints and next-step coaching instead of instant answers.
+## Features
+
+- Hint and next-step coaching instead of direct instant answers.
+- Attempt-gated "Check my answer" feedback.
+- Difficulty selector with level-specific hint packs.
+- Topic detection from question text.
+- Practice-question generator by topic.
+- Session save/history and study stats persisted in localStorage.
+- Light/dark theme toggle.
 
 ## Run locally
 
