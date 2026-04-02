@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dad Zone 🍺</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+        color: white;
+        text-align: center;
+    }
+
+    header {
+        padding: 20px;
+        font-size: 1.8em;
+        font-weight: bold;
+        background: rgba(0,0,0,0.3);
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    button {
+        background: #ff9800;
+        border: none;
+        padding: 15px 25px;
+        font-size: 1em;
+        border-radius: 10px;
+        cursor: pointer;
+        color: white;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #e68900;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.1);
+        padding: 15px;
+        margin: 10px auto;
+        border-radius: 15px;
+        max-width: 400px;
+        text-align: left;
+        backdrop-filter: blur(10px);
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .distance {
+        font-size: 0.9em;
+        color: #ccc;
+    }
+</style>
+</head>
+
+<body>
+
+<header>🍺 The Dad Zone</header>
+
+<div class="container">
+    <p>Find your nearest Dad Zone (aka alcohol spots)</p>
+    <button onclick="findPlaces()">Find Nearby</button>
+
+    <div id="results"></div>
+</div>
+
+<script>
+function findPlaces() {
+    const results = document.getElementById("results");
+    results.innerHTML = "Getting your location...";
+
+    if (!navigator.geolocation) {
+        results.innerHTML = "Geolocation not supported.";
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        results.innerHTML = "Searching for Dad Zones...";
+
+        // Overpass API query for pubs, bars, alcohol shops
+        const query = `
+        [out:json];
+        (
+          node["amenity"="pub"](around:1500,${lat},${lon});
+          node["amenity"="bar"](around:1500,${lat},${lon});
+          node["shop"="alcohol"](around:1500,${lat},${lon});
+        );
+        out;
+        `;
+
+        const response = await fetch("https://overpass-api.de/api/interpreter", {
+            method: "POST",
+            body: query
+        });
+
+        const data = await response.json();
+
+        if (data.elements.length === 0) {
+            results.innerHTML = "No Dad Zones nearby 😢";
+            return;
+        }
+
+        results.innerHTML = "";
+
+        data.elements.slice(0, 10).forEach(place => {
+            const name = place.tags.name || "Unnamed Dad Zone";
+
+            const div = document.createElement("div");
+            div.className = "card";
+
+            div.innerHTML = `
+                <div class="title">🍺 ${name}</div>
+                <div class="distance">Somewhere nearby...</div>
+            `;
+
+            results.appendChild(div);
+        });
+
+    }, () => {
+        results.innerHTML = "Location permission denied.";
+    });
+}
+</script>
+
+</body>
+</html>
